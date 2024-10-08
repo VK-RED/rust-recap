@@ -4,6 +4,54 @@ use std::collections::HashMap;
 use chrono::Local;
 
 
+fn main() {
+    iterator_logic();
+    into_iter_logic();
+}
+
+fn into_iter_logic(){
+
+    // This is the default version of for loop in rust
+
+    let mut vector = vec![1,2,3,4];
+
+    let iter = vector.into_iter();
+
+    for value in iter{
+        println!("The value is {}", value);
+    }
+
+    // println!("{:?}",vector); // This complaints as the ownership is moved to iter
+}
+
+fn iterator_logic(){
+    let mut vector = vec![1,2,3,4];
+
+    // Getting the iterator as mutable
+    let mut iter = vector.iter_mut();
+
+    while let Some(val) = iter.next() {
+        *val = *val + 1;
+        println!("{}",val);
+    } 
+    
+    // let non_mut_iterator = vector.iter();
+
+    // for i in non_mut_iterator{
+    //     println!("{} is in non mut iterator",i);
+    // }
+
+    // let mut mut_iterator = vector.iter_mut();
+
+
+    // for i in mut_iterator{
+    //     println!("{} is in mut iterator",i);
+    // }
+
+
+
+}
+
 fn grp_by_tuples(vector:&Vec<(String, u32)>) -> HashMap<String,Vec<u32>> {
 
     let mut map:HashMap<String,Vec<u32>> = HashMap::new();
@@ -26,15 +74,6 @@ fn grp_by_tuples(vector:&Vec<(String, u32)>) -> HashMap<String,Vec<u32>> {
 
     map
 
-}
-
-fn main() {
-
-    let vec_tuples: Vec<(String, u32)> = vec![(String::from("kirat"),28), (String::from("vishnu"),24), (String::from("vishnu"),25)];
-    let res_map: HashMap<String, Vec<u32>> = grp_by_tuples(&vec_tuples);
-    println!("{:?}",res_map);
-
-    
 }
 
 enum Shape{
