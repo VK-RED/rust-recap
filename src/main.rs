@@ -1,9 +1,39 @@
 use std::fs::read_to_string;
+use std::collections::HashMap;
+
 use chrono::Local;
+
+
+fn grp_by_tuples(vector:&Vec<(String, u32)>) -> HashMap<String,Vec<u32>> {
+
+    let mut map:HashMap<String,Vec<u32>> = HashMap::new();
+
+    for (k,val) in vector{
+        
+        let existing_vec: Option<&mut Vec<u32>> = map.get_mut(k);
+
+        match existing_vec {
+            Some(arr) => {
+                arr.push(*val);
+            },
+            None => {
+                let mut vec: Vec<u32> = vec![*val];
+                map.insert(k.clone(), vec);
+            }
+        }
+
+    }   
+
+    map
+
+}
+
 fn main() {
-    
-    let current_time = Local::now();
-    println!("Current time is : {}", current_time);
+
+    let vec_tuples: Vec<(String, u32)> = vec![(String::from("kirat"),28), (String::from("vishnu"),24), (String::from("vishnu"),25)];
+    let res_map: HashMap<String, Vec<u32>> = grp_by_tuples(&vec_tuples);
+    println!("{:?}",res_map);
+
     
 }
 
@@ -43,7 +73,7 @@ impl Rect {
     fn area(&self) -> u32 {
         self.height * self.width
     }
-
+    // static function
     fn static_fn() -> bool{
         return true;
     }
