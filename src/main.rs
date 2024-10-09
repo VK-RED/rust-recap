@@ -3,9 +3,14 @@ use std::collections::HashMap;
 
 use chrono::Local;
 
-
 fn main() {
-    adapter_assignment();
+    string_slice();
+}
+
+fn string_slice(){
+    let string_Word = String::from("Vishnu"); // Normal String
+    let str_word = &string_Word[0..6]; // It's a view of the original string & str_word points over the actual string  with shrinked length;
+    let str_literal = "Vishnu"; // It's also type &str, but points to actual reference in binary
 }
 
 fn adapter_assignment(){
