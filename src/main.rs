@@ -5,8 +5,56 @@ use chrono::Local;
 
 
 fn main() {
-    iterator_logic();
-    into_iter_logic();
+    adapter_assignment();
+}
+
+fn adapter_assignment(){
+    //filter out all odds and double each
+
+    let vec = vec![1,2,3];
+    let iter = vec.iter();
+
+    let final_iter = iter.filter(|x| **x % 2 != 0 );
+    let map_iter = final_iter.map(|x| x*2);
+
+    let final_vec:Vec<i32>  = map_iter.collect();
+
+    println!("The filtered and transformed vector is : {:?}", final_vec);
+
+}
+
+fn iterator_adapter(){
+    //The adapter produces another iterator by changing the original adapter
+    //The original iterator gets moved just like the consuming adapter
+    let v1 = vec![1,2,3];
+    let iter = v1.iter();
+
+    // similar to map in js
+    // let map_iter = iter.map(|x| x+1);
+    // for i in map_iter{
+    //     println!("{}", i); // 2 , 3, 4
+    // }
+
+    //similar 
+    let filter_iter = iter.filter(|x| **x % 2 == 0); 
+    for i in filter_iter{
+        println!("{}",i); // prints -> 2
+    }
+}
+
+fn consuming_adapter(){
+    // This adapter consumes the original iterator
+    // Thus the iterator get's moved to the adapter;
+
+    let v1 = vec![1,2,3];
+    let iter = v1.iter();
+
+    let sum : i32 = iter.sum();
+
+    println!("{}",sum); // -> 6
+
+    // println!("{:?}",iter); // -> ERROR : BORROW OF MOVED VALUE
+
 }
 
 fn into_iter_logic(){
