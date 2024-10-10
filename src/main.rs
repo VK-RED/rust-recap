@@ -22,13 +22,17 @@ impl Vehicle for Car{
     }
 }
 
+// Traits as args
+fn get_vehicle_num(u:&impl Vehicle){
+    u.get_no();
+}
+
+
 
 fn main() {
     let car = Car{no:String::from("TN 31 AA 2374")};
 
-    car.get_no(); // prints car's no
-
-    car.default_fn(); // prints out the default function
+    get_vehicle_num(&car); // traits as args // prints out the same car no
 }
 
 fn string_slice(){
