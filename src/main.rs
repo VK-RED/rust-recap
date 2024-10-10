@@ -3,8 +3,32 @@ use std::collections::HashMap;
 
 use chrono::Local;
 
+
+trait Vehicle{
+    fn get_no(&self) -> &String;
+    fn default_fn(&self){
+        println!("THIS IS JUST A DEFAULT IMPLEMENTATION OF A FUNCTION");
+    }
+}
+
+struct Car{
+    no:String,
+}
+
+impl Vehicle for Car{
+    fn get_no(&self) -> &String {
+        println!("The car's no is {}",self.no);
+        return &self.no;
+    }
+}
+
+
 fn main() {
-    string_slice();
+    let car = Car{no:String::from("TN 31 AA 2374")};
+
+    car.get_no(); // prints car's no
+
+    car.default_fn(); // prints out the default function
 }
 
 fn string_slice(){
