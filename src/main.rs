@@ -11,6 +11,12 @@ trait Vehicle{
     }
 }
 
+trait Tyre{
+    fn dummy(&self){
+        println!("HI there !!");
+    }
+}
+
 struct Car{
     no:String,
 }
@@ -22,17 +28,29 @@ impl Vehicle for Car{
     }
 }
 
+impl Tyre for Car{}
+
 // Traits as args
 fn get_vehicle_num(u:&impl Vehicle){
     u.get_no();
 }
 
+// Trait Bound
+// This is how the impl Vechicle syntax gets converted finally !!
+fn non_sugar_coat<T: Vehicle>(vehicle:&T){
+    vehicle.get_no();
+}
+
+// Multiple Trait Bounds
+fn impl_multi_traits<T: Vehicle+Tyre>(t: &T){
+    t.dummy();                                  
+}
 
 
 fn main() {
     let car = Car{no:String::from("TN 31 AA 2374")};
-
-    get_vehicle_num(&car); // traits as args // prints out the same car no
+    non_sugar_coat(&car); 
+    impl_multi_traits(&car); // This throws out error if Car does not implement either Vehicle or Tyre !!
 }
 
 fn string_slice(){
