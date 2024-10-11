@@ -3,18 +3,25 @@ use std::collections::HashMap;
 
 use chrono::Local;
 
-
 fn main() {
-    let ans;
-    let str1 = String::from("Vishnu");
+    struct_lifetime_demo();
+}
+
+struct Person_life<'a >{
+    name:&'a str,
+}
+
+fn struct_lifetime_demo(){
+    let person;
 
     {
-        let str2 = String::from("Kumar");
-        ans = find_largest_str(&str1[..], &str2[..]);
+        let person_name = String::from("Vishnu");
+        person = Person_life{
+            name:&person_name,
+        };
     }
 
-    // println!("{}",ans); // This throws out an error as str2 does not live long enough
-
+    // println!("{}",person.name); This will throw an error as the lifetime of person ended on the above scope
 }
 
 fn find_largest_str<'a>(str1:&'a str, str2:&'a str) -> &'a str {
