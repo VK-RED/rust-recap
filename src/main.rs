@@ -4,6 +4,34 @@ use std::collections::HashMap;
 use chrono::Local;
 
 
+fn main() {
+    let ans;
+    let str1 = String::from("Vishnu");
+
+    {
+        let str2 = String::from("Kumar");
+        ans = find_largest_str(&str1[..], &str2[..]);
+    }
+
+    // println!("{}",ans); // This throws out an error as str2 does not live long enough
+
+}
+
+fn find_largest_str<'a>(str1:&'a str, str2:&'a str) -> &'a str {
+
+    /*
+        'a does not mean str1, str2, and the result have the same life time
+        'a means a valid lifetime, i.e the union intersection of str1 and str2
+        or in other words 'a is the smallest life time of either str1's lifetime or str2's lifetime
+
+    */
+
+    if str1.chars().count() > str2.chars().count(){
+        return str1;
+    }
+    return str2;
+} 
+
 trait Vehicle{
     fn get_no(&self) -> &String;
     fn default_fn(&self){
@@ -44,13 +72,6 @@ fn non_sugar_coat<T: Vehicle>(vehicle:&T){
 // Multiple Trait Bounds
 fn impl_multi_traits<T: Vehicle+Tyre>(t: &T){
     t.dummy();                                  
-}
-
-
-fn main() {
-    let car = Car{no:String::from("TN 31 AA 2374")};
-    non_sugar_coat(&car); 
-    impl_multi_traits(&car); // This throws out error if Car does not implement either Vehicle or Tyre !!
 }
 
 fn string_slice(){
