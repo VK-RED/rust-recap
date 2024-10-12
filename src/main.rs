@@ -1,10 +1,39 @@
 use std::fs::read_to_string;
 use std::collections::HashMap;
-
+use std::thread;
 use chrono::Local;
 
 fn main() {
-    struct_lifetime_demo();
+    multi_thread_move();
+}
+
+fn multi_thread_move(){
+    
+    {
+        let v = vec![1,2,3];
+
+        let handle = thread::spawn( move ||{
+            println!("{:?}",v);   // when u don't use the move keyword, the closure does not take ownership
+        });
+
+        handle.join().unwrap();
+    }
+    
+}
+
+fn multi_thread(){
+    
+    let handle = thread::spawn(||{
+       for i in 0..5{
+            println!(" Hello from the spawned thread  !  {i}");
+       }
+    });
+
+    for i in 0..10{
+        println!("Hello from the main thread!");
+    }
+    
+    handle.join().unwrap();
 }
 
 struct Person_life<'a >{
