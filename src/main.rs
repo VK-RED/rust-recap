@@ -1,10 +1,60 @@
 use std::fs::read_to_string;
 use std::collections::HashMap;
-use std::thread;
+use std::sync::mpsc;
+use std::thread::{self, spawn};
 use chrono::Local;
 
+fn channels_assignment(){
+
+    // find the sum from 0..1000
+
+    let (tx,rx) = mpsc::channel();
+
+    for i in 0..10 {
+        let producer: mpsc::Sender<u32> = tx.clone();
+
+        thread::spawn(move||{
+
+            let mut ans = 0;
+
+            for j in i*100+1..=(i+1)*100 {
+                ans += j;
+            }
+
+            producer.send(ans).unwrap();
+
+        });
+    }
+    
+    drop(tx);
+    
+    let mut final_ans: u32 = 0;
+
+    for ans in rx {
+        println!("Received Value is : {}",ans);
+        final_ans+=ans;
+    };
+
+    println!("The final ans is : {}",final_ans);
+
+
+}
+
 fn main() {
-    multi_thread_move();
+    channels_assignment();
+}
+
+fn mpsc_demo(){
+
+    let (tx,rx) = mpsc::channel();
+
+    spawn(move||{
+        let value = String::from("Vishnu");
+        tx.send(value).unwrap()
+    });
+
+    let result = rx.recv().unwrap_or_default();
+    println!("{}",result);
 }
 
 fn multi_thread_move(){
