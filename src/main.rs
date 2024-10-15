@@ -3,6 +3,9 @@ use std::collections::HashMap;
 use std::sync::mpsc;
 use std::thread::{self, spawn};
 use chrono::Local;
+use garden::vegetable::Asparagus; // Relative Path
+// use crate::garden::vegetable::Asparagus // Absolute Path 
+pub mod garden;
 
 fn channels_assignment(){
 
